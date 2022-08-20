@@ -8,7 +8,7 @@
   width: 900px;
   height: 350px;
   object-fit: cover;
-  animation: moveBackground 10s linear infinite;
+  animation: moveBackground 20s linear infinite;
 }
 @keyframes moveBackground {
   0% {
