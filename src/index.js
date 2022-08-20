@@ -1,0 +1,143 @@
+//Don't tinker with these
+const plr = document.getElementById("plr");
+const fbtn = document.getElementById("fbtn");
+const game = document.getElementById("gamearea");
+const pipe = document.getElementById("obs");
+const startGameBtn = document.getElementById("startbtn");
+const score = document.getElementById("sc");
+let plrY = 250;
+let plrX = 100;
+let plrW = 50;
+let plrH = 35;
+let pipeX = 600;
+let pipeY = Math.floor(Math.random() * 50);
+let Yvelocity = 0;
+let gameOver = false;
+let pipeW = 80;
+let pipe1H = 200;
+let pipe2H = 200;
+let pipe2Y = pipeY + pipe1H;
+let scoreVal = 0;
+//You can ajust these
+let GRAVITY = 0.05;
+let JUMP_HEIGHT = 3;
+let MAX_PULL = -2;
+let FPS = 10;
+let PIPE_SPEED = 0.9;
+let FRICTION = 1;
+
+//game code
+function updatePlayerPosition() {
+  plr.style.bottom = plrY + "px";
+  plr.style.left = plrX + "px";
+  plrY += Yvelocity;
+}
+function gravity() {
+  Yvelocity -= GRAVITY;
+  if (Yvelocity < MAX_PULL) {
+    Yvelocity = MAX_PULL;
+    plr.style.transform = "rotate(20deg)";
+  }
+}
+function collision() {
+  if (plrY < 60) {
+    Yvelocity = 0;
+    plrY = 60;
+    plrX -= FRICTION;
+    plr.style.transform = "rotate(0deg)";
+  }
+  if (plrY > 370) {
+    Yvelocity = 0;
+    plrY = 370;
+    plrX -= FRICTION * 5;
+    plr.style.transform = "rotate(0deg)";
+  }
+  if (plrX < -plrW) {
+    gameOver = true;
+  }
+  if (
+    plrX < pipeX + pipeW &&
+    plrX + plrW > pipeX &&
+    plrY < pipeY + pipe1H &&
+    plrY + plrH > pipeY
+  ) {
+    plrY = 250;
+    plrX = 100;
+    plr.style.transform = "rotate(0deg)";
+    gameOver = true;
+  }
+  if (
+    plrX < pipeX + pipeW &&
+    plrX + plrW > pipeX &&
+    plrY < pipe2Y + pipe2H &&
+    plrY + plrH > pipe2Y
+  ) {
+    plrY = 250;
+    plrX = 100;
+    plr.style.transform = "rotate(0deg)";
+    gameOver = true;
+  }
+}
+function scoreUpdate() {
+  if (plrX < pipeX + pipeW && plrX + plrW > pipeX) {
+    scoreVal += 0.01;
+    score.innerText = Math.floor(scoreVal);
+  }
+}
+function jump() {
+  Yvelocity += JUMP_HEIGHT;
+  plr.style.transform = "rotate(-20deg)";
+}
+function gameLoop() {
+  gravity();
+  collision();
+  updatePlayerPosition();
+  updatePipePosition();
+  scoreUpdate();
+  accelerate();
+  if (gameOver === true) {
+    pipe.style.visibility = "hidden";
+    startGameBtn.style.visibility = "visible";
+    startGameBtn.innerText = "Play again";
+    return;
+  }
+  setTimeout(gameLoop, FPS);
+}
+function accelerate() {
+  FPS -= 0.001;
+  if (FPS < 1) {
+    FPS = 1;
+  }
+}
+startGameBtn.onclick = function () {
+  plrY = 250;
+  plrX = 100;
+  pipeX = 500;
+  pipeY = 0;
+  Yvelocity = 0;
+  gameOver = false;
+  scoreVal = 0;
+  FPS = 10;
+  pipe.style.visibility = "visible";
+  gameLoop();
+  this.style.visibility = "hidden";
+};
+document.body.onkeydown = function () {
+  jump();
+};
+fbtn.onclick = function () {
+  game.requestFullscreen();
+};
+function updatePipePosition() {
+  pipe.style.left = pipeX + "px";
+  pipe.style.bottom = pipeY + "px";
+  pipeX -= PIPE_SPEED;
+  if (pipeX < -pipeW) {
+    pipeX = 600;
+    pipeY = randomNumber(-150, 50);
+  }
+  pipe2Y = pipeY + pipe1H + 200;
+}
+function randomNumber(min, max) {
+  return Math.random() * (max - min) + min;
+}
