@@ -97,7 +97,6 @@ function jump() {
 function gameLoop() {
   gravity();
   collision();
-  updateBullet();
   updatePlayerPosition();
   updatePipePosition();
   scoreUpdate();
