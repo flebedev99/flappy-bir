@@ -23,12 +23,6 @@ let pipe2Y = pipeY + pipe1H;
 let scoreVal = 0;
 let groundS = 0.5;
 let pipesCleared = 0;
-let bullet;
-let bulletH = 50;
-let bulletW = 20;
-let bulletX = plrX;
-let bulletY = plrY;
-let bulletsFired = 1;
 //You can ajust these
 let GRAVITY = 0.05; //Gravity acceleration
 let JUMP_HEIGHT = 3; //How hight the player jumps
@@ -36,25 +30,8 @@ let MAX_PULL = -2; //Max gravity
 let FPS = 10; //Frames Per Second
 let PIPE_SPEED = 0.99; //Speed of pipes moving
 let FRICTION = 1.7; //Ground friction and wind strength
-let WHEN_BOSS_BATTLE = 3; //How much pipes to clear for boss battle
-let LOADING_SPEED = 6000; //How fast it loads
-let BULLET_SPEED = 1; //How fast the bullet moves
 
 //game code
-function createBullet() {
-  bulletX = plrX;
-  bulletY = plrY;
-  bullet = document.createElement("img");
-  bullet.style.width = bulletW + "px";
-  bullet.style.height = bulletH + "px";
-  bullet.style.backgroundColor = "none";
-  bullet.style.position = "absolute";
-  bullet.style.zIndex = 2;
-  bullet.src = "src/assets/feather.png";
-  bullet.style.transform = "rotate(90deg)";
-  bullet.style.filter = "sepia(1)";
-  ground.parentElement.appendChild(bullet);
-}
 function updatePlayerPosition() {
   plr.style.bottom = plrY + "px";
   plr.style.left = plrX + "px";
