@@ -155,7 +155,6 @@ startGameBtn.onclick = function () {
   FPS = 10;
   groundS = 0.3;
   scoreUpdate();
-  progressAnimation();
   pipe.style.visibility = "visible";
   gameLoop();
   this.style.visibility = "hidden";
