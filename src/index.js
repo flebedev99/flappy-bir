@@ -147,10 +147,8 @@ function updatePipePosition() {
   pipe.style.bottom = pipeY + "px";
   pipeX -= PIPE_SPEED;
   if (pipeX < -pipeW) {
-    if (!checkBossBattle()) {
       pipeX = 600;
       pipeY = randomNumber(-150, 50);
-    }
   }
   pipe2Y = pipeY + pipe1H + 200;
 }
